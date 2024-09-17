@@ -12,7 +12,6 @@
           <a href="{{ route('tweets.index') }}" class="text-blue-500 hover:text-blue-700 mr-2">一覧に戻る</a>
           <p class="text-gray-800 dark:text-gray-300 text-lg">{{ $tweet->tweet }}</p>
           <p class="text-gray-600 dark:text-gray-400 text-sm">投稿者: {{ $tweet->user->name }}</p>
-          <p class="text-gray-600 dark:text-gray-400 text-sm">投稿者ID: {{ $tweet->user_id }}
           <div class="text-gray-600 dark:text-gray-400 text-sm">
             <p>作成日時: {{ $tweet->created_at->format('Y-m-d H:i') }}</p>
             <p>更新日時: {{ $tweet->updated_at->format('Y-m-d H:i') }}</p>
@@ -41,8 +40,21 @@
             </form>
             @endif
           </div>
+          <div class="mt-4">
+            <p class="text-gray-600 dark:text-gray-400 ml-4">comment {{ $tweet->comments->count() }}</p>
+            <a href="{{ route('tweets.comments.create', $tweet) }}" class="text-blue-500 hover:text-blue-700 mr-2">コメントする</a>
+          </div>
+          <div class="mt-4">
+            @foreach ($tweet->comments as $comment)
+            <!-- 🔽 リンク追加 -->
+            <a href="{{ route('tweets.comments.show', [$tweet, $comment]) }}">
+              <p>{{ $comment->comment }} <span class="text-gray-600 dark:text-gray-400 text-sm">{{ $comment->user->name }} {{ $comment->created_at->format('Y-m-d H:i') }}</span></p>
+            </a>
+            @endforeach
+          </div>
         </div>
       </div>
     </div>
   </div>
 </x-app-layout>
+
